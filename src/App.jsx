@@ -6,6 +6,7 @@ import Start from './Start'; // Make sure the path to your Start component is co
 import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import Create from './Create'
+import Profile from './Profile'
 
 function App() {
   const [page, setPage] = useState('Start');
@@ -14,17 +15,18 @@ function App() {
 
 
   
-
+  console.log(page)
 
 
 
   switch (page) {
     case 'Start':
-      return <Start setDog={setDog} setPage={setPage}  />;
+      return <Start setDog={setDog} setPage={setPage} dog={dog} />;
     case 'Profile':
-      return <Profile dog={dog} setPage={setPage} />;
+      return <Profile dog={dog} setPage={setPage}  />;
     case 'Create':
       return <Create dog={dog} setPage={setPage} />;
+      
     default:
       return <Start />
 

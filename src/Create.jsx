@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 
 
-const Create = () => {
+const Create = ({setPage}) => {
 
     const [name, setName] = useState('');
   const [age, setAge] = useState('');
@@ -51,10 +51,16 @@ const Create = () => {
     
 
 
-
+    function changePage(event) {
+        event.preventDefault()
+        setPage('Start')
+        console.log("1")
+}
 
     return (
         <>
+            
+            <button onClick={changePage}>Back to Start</button>
             <h1>CREATE PAGE</h1>
         
             
@@ -99,7 +105,9 @@ const Create = () => {
       
       
       
-      </form>
+            </form>
+            
+           
         </>
     )
 }
