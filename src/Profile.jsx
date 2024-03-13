@@ -1,16 +1,30 @@
 import React from "react"
 import { useState } from "react"
-import Dogs from './dogsdata'
+import axios from "axios"
 
-const Profile = ({dog}) => {
+
+const Profile = ({ setPage, dog }) => {
+    
+    function changePage(event) {
+        event.preventDefault()
+       setPage('Start')
+    }  
     return (
         <>
             <h1>Hundarnas profiler</h1>
-             {/* <p><strong>Nickname:</strong> {dog.nickname}</p>
+            <h1>Tjena fan {dog.name}</h1>
+  
+             
+            <div>
+             <p><strong>Name:</strong> {dog.name}</p>
+             <p><strong>Nickname:</strong> {dog.nickname}</p>
              <p><strong>Age:</strong> {dog.age}</p>
              <p><strong>Breed:</strong> {dog.breed}</p>
-             <p><strong>Info:</strong> {dog.info}</p> */}
+                <p><strong>temperament:</strong> {dog.temperament}</p>
+                <p><strong>Info:</strong> {dog.preference}</p>
+           </div>
 
+            <button onClick={changePage}>Go back </button>
         </>
     )
 }
