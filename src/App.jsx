@@ -5,6 +5,7 @@ import axios from 'axios';
 import Start from './Start'; // Make sure the path to your Start component is correct
 import Create from './Create'
 import Profile from './Profile'
+import Edit from './Edit';
 
 function App() {
   const [page, setPage] = useState('Start');
@@ -27,7 +28,7 @@ function App() {
     fetchDogs();
   }, []);
 
-
+console.log(dog.name)
 
 
   switch (page) {
@@ -37,7 +38,9 @@ function App() {
       return <Profile dog={dog} setPage={setPage}  />;
     case 'Create':
       return <Create setPage={setPage} />;
-     default:
+    case 'Edit':
+      return <Edit dog={dog} setPage={setPage} />
+    default:
       return <Start />
 
   }

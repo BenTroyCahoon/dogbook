@@ -1,4 +1,3 @@
-
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
@@ -75,6 +74,82 @@ app.get("/dogs", async (req, res) => {
     console.log(dogs);
   } catch (error) {
     console.error("fetching went to shit");
+  }
+});
+
+// app.post("/edit/:id", async (req, res) => {
+//   const {id} = req.params.id
+//   const {
+//     name,
+//     age,
+//     gender,
+//     temperament,
+//     preference,
+//     nickname,
+//     presence,
+//     breed,
+//   } = req.body;
+
+//   try {
+//     const newDog = new Dog({
+//       name,
+//       age,
+//       gender,
+//       temperament,
+//       preference,
+//       nickname,
+//       presence,
+//       breed,
+//     });
+//     await newDog.save();
+//     console.log("Dog profile added successfully!");
+//     res.status(201).send("Dog profile added successfully!");
+//   } catch (error) {
+//     console.error("Error adding dog profile:", error);
+//     res.status(500).send("Failed to add dog profile.");
+//   }
+// });
+
+app.put("/edit/:id", async (req, res) => {
+  const { id } = req.params; // Hämta ID från URL-parametern
+  const {
+    name,
+    age,
+    gender,
+    temperament,
+    preference,
+    nickname,
+    presence,
+    breed,
+  } = req.body;
+
+  try {
+    // Hitta hunden med det angivna ID:t och uppdatera dess attribut
+    const updatedDog = await Dog.findByIdAndUpdate(
+      id,
+      {
+        name,
+        age,
+        gender,
+        temperament,
+        preference,
+        nickname,
+        presence,
+        breed,
+      },
+      { new: true }
+    ); // Använd { new: true } för att få det uppdaterade objektet tillbaka
+
+    if (!updatedDog) {
+      // Om hunden inte hittades med det angivna ID:t
+      return res.status(404).send("Dog not found");
+    }
+
+    console.log("Dog profile updated successfully!");
+    res.status(200).send("Dog profile updated successfully!");
+  } catch (error) {
+    console.error("Error updating dog profile:", error);
+    res.status(500).send("Failed to update dog profile.");
   }
 });
 

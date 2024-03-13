@@ -26,10 +26,17 @@ const Profile = ({ setPage, dog }) => {
       setPage('Start');
     }
   
+    function editDog(event) {
+        event.preventDefault();
+        setPage('Edit');
+      }
+
+
+
     return (
       <div>
         <button onClick={changePage}>Go to Start</button>
-  
+  <button onClick={editDog}>Edit Dog</button>
         <h1>{dog.name} sida!</h1>
   
         {/* Visa den slumpmässiga hundbilden */}
