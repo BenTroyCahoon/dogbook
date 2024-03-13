@@ -18,11 +18,6 @@ function App() {
         setDogs(response.data);
 
 
-        const res = await axios.get('https://dog.ceo/api/breeds/image/random');
-      setDogImages(res.data.message) ; // Return the URL of the random dog image
-//         const images = await Promise.all(response.data.map(fetchDogImage));
-// setDogImages()
-
       } catch (error) {
           console.error('Error fetching dogs:', error);
           
