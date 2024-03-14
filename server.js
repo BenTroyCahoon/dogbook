@@ -76,39 +76,6 @@ app.get("/dogs", async (req, res) => {
   }
 });
 
-// app.post("/edit/:id", async (req, res) => {
-//   const {id} = req.params.id
-//   const {
-//     name,
-//     age,
-//     gender,
-//     temperament,
-//     preference,
-//     nickname,
-//     presence,
-//     breed,
-//   } = req.body;
-
-//   try {
-//     const newDog = new Dog({
-//       name,
-//       age,
-//       gender,
-//       temperament,
-//       preference,
-//       nickname,
-//       presence,
-//       breed,
-//     });
-//     await newDog.save();
-//     console.log("Dog profile added successfully!");
-//     res.status(201).send("Dog profile added successfully!");
-//   } catch (error) {
-//     console.error("Error adding dog profile:", error);
-//     res.status(500).send("Failed to add dog profile.");
-//   }
-// });
-
 app.put("/dogs/:id", async (req, res) => {
   const { id } = req.params; // Hämta ID från URL-parametern
   const {

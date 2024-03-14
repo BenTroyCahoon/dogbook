@@ -31,7 +31,7 @@ return (
             <a key={index} onClick={() => { setPage('Profile'); setDog(dog) }}><li >
            {/* <img src={dogImages} alt="Dog" /> */}
            <div>
-             <p><strong>Name:</strong> {dog.name}</p>
+             <p style={{color: dog.presence === "ja" ? "green" : "red"}}><strong>Name:</strong> {dog.name}</p>
              {/* <p><strong>Nickname:</strong> {dog.nickname}</p>
              <p><strong>Age:</strong> {dog.age}</p>
              <p><strong>Breed:</strong> {dog.breed}</p>

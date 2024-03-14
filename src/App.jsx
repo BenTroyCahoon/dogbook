@@ -39,7 +39,7 @@ console.log(dog.name)
     case 'Create':
       return <Create setPage={setPage} setDogs={setDogs} />; 
     case 'Edit':
-      return <Edit dog={dog} setPage={setPage} setDogs={setDogs} />
+      return <Edit dog={dog} setPage={setPage} setDogs={setDogs} dogs={dogs} />
     default:
       return <Start />
 

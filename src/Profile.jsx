@@ -40,7 +40,7 @@ const Profile = ({ setPage, dog }) => {
         <h1>{dog.name} sida!</h1>
   
         {/* Visa den slumpmässiga hundbilden */}
-        {dogImage && <img src={dogImage} alt="Dog" />}
+        {dogImage && <img className="dog-image" src={dogImage} alt="Dog" />}
   
         <div>
           <p><strong>Name:</strong> {dog.name}</p>
@@ -49,7 +49,8 @@ const Profile = ({ setPage, dog }) => {
           <p><strong>Breed:</strong> {dog.breed}</p>
                 <p><strong>Temperament:</strong> {dog.temperament}</p>
                 <p><strong>Preferences:</strong> {dog.preference}</p>
-                <p><strong>Presence:</strong> {dog.presence}</p>
+  
+          <p >{dog.presence ? "Present" : "Not Present"}</p>
         </div>
       </div>
     );

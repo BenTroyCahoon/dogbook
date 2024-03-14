@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 
 
-const Edit = ({setPage, setDogs, dog}) => {
+const Edit = ({setPage, setDogs, dog, dogs}) => {
 
     const [name, setName] = useState(dog.name);
   const [age, setAge] = useState(dog.age);
@@ -15,7 +15,9 @@ const Edit = ({setPage, setDogs, dog}) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+       
+      
+      
         try {
           const response = await fetch(`http://localhost:3000/dogs/${dog._id}`, {
             method: 'PUT',
@@ -39,7 +41,7 @@ const Edit = ({setPage, setDogs, dog}) => {
           if (response.ok) {
             console.log('Changes saved successfully!');
             const updatedDog = await response.json();
-            setDogs((oldDogs) => [...oldDogs, updatedDog])
+            setDogs((oldDogs) => oldDogs.map(dog => dog._id === updatedDog._id ? updatedDog : dog))
             setPage("Start")
             // Lägg till eventuellt annat beteende för att indikera att hundprofilen har lagts till
           } else {
@@ -100,7 +102,9 @@ const Edit = ({setPage, setDogs, dog}) => {
       <input type="text" id="nickname" value={nickname} onChange={(e) => setNickname(e.target.value)} />
       
       <label htmlFor="presence">Present?:</label> {/* Lägg till fält för presence */}
-      <input type="text" id="presence" value={presence} onChange={(e) => setPresence(e.target.value)} />
+          <input type="text" id="presence" value={presence} onChange={(e) => setPresence(e.target.value)} />
+          
+        
       
       
       <button type="submit">Save changes</button>

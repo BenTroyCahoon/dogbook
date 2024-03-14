@@ -58,7 +58,7 @@ const Create = ({setPage, setDogs}) => {
     function changePage(event) {
         event.preventDefault()
         setPage('Start')
-        console.log("1")
+       
 }
 
     return (
