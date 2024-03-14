@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 
 
-const Create = ({setPage}) => {
+const Create = ({setPage, setDogs}) => {
 
     const [name, setName] = useState('');
   const [age, setAge] = useState('');
@@ -37,7 +37,11 @@ const Create = ({setPage}) => {
           });
     
           if (response.ok) {
-            console.log('Dog profile added successfully!');
+            const newDog = await response.json();
+            console.log('Dog profile added successfully!', );
+            console.log(newDog)
+            setDogs((oldDogs) => [...oldDogs, newDog])
+            setPage("Start")
             // Lägg till eventuellt annat beteende för att indikera att hundprofilen har lagts till
           } else {
             console.error('Failed to add dog profile');

@@ -47,9 +47,9 @@ const Profile = ({ setPage, dog }) => {
           <p><strong>Nickname:</strong>{dog.nickname}</p>
           <p><strong>Age:</strong> {dog.age}</p>
           <p><strong>Breed:</strong> {dog.breed}</p>
-                <p><strong>Breed:</strong> {dog.temperament}</p>
-                <p><strong>Breed:</strong> {dog.preference}</p>
-                <p><strong>Breed:</strong> {dog.preference}</p>
+                <p><strong>Temperament:</strong> {dog.temperament}</p>
+                <p><strong>Preferences:</strong> {dog.preference}</p>
+                <p><strong>Presence:</strong> {dog.presence}</p>
         </div>
       </div>
     );

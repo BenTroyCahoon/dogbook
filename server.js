@@ -58,8 +58,9 @@ app.post("/addDogProfile", async (req, res) => {
       breed,
     });
     await newDog.save();
+    console.log(newDog);
     console.log("Dog profile added successfully!");
-    res.status(201).send("Dog profile added successfully!");
+    res.status(201).json(newDog);
   } catch (error) {
     console.error("Error adding dog profile:", error);
     res.status(500).send("Failed to add dog profile.");
@@ -69,9 +70,7 @@ app.post("/addDogProfile", async (req, res) => {
 app.get("/dogs", async (req, res) => {
   try {
     const dogs = await Dog.find();
-    console.log(dogs);
     res.status(200).json(dogs);
-    console.log(dogs);
   } catch (error) {
     console.error("fetching went to shit");
   }
@@ -110,7 +109,7 @@ app.get("/dogs", async (req, res) => {
 //   }
 // });
 
-app.put("/edit/:id", async (req, res) => {
+app.put("/dogs/:id", async (req, res) => {
   const { id } = req.params; // Hämta ID från URL-parametern
   const {
     name,
@@ -146,7 +145,7 @@ app.put("/edit/:id", async (req, res) => {
     }
 
     console.log("Dog profile updated successfully!");
-    res.status(200).send("Dog profile updated successfully!");
+    res.status(200).json(updatedDog);
   } catch (error) {
     console.error("Error updating dog profile:", error);
     res.status(500).send("Failed to update dog profile.");

@@ -9,7 +9,7 @@ import Edit from './Edit';
 
 function App() {
   const [page, setPage] = useState('Start');
-  const [dog, setDog] = useState([])
+  const [dog, setDog] = useState({})
   const [dogs, setDogs] = useState([])
   
   useEffect(() => {
@@ -37,9 +37,9 @@ console.log(dog.name)
     case 'Profile':
       return <Profile dog={dog} setPage={setPage}  />;
     case 'Create':
-      return <Create setPage={setPage} />;
+      return <Create setPage={setPage} setDogs={setDogs} />; 
     case 'Edit':
-      return <Edit dog={dog} setPage={setPage} />
+      return <Edit dog={dog} setPage={setPage} setDogs={setDogs} />
     default:
       return <Start />
 

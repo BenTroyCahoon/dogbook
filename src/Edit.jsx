@@ -1,7 +1,8 @@
+
 import React, { useState, useEffect } from 'react';
 
 
-const Edit = ({setPage, dog}) => {
+const Edit = ({setPage, setDogs, dog}) => {
 
     const [name, setName] = useState(dog.name);
   const [age, setAge] = useState(dog.age);
@@ -16,7 +17,7 @@ const Edit = ({setPage, dog}) => {
         e.preventDefault();
         
         try {
-          const response = await fetch('http://localhost:3000/dogs/edit/:id', {
+          const response = await fetch(`http://localhost:3000/dogs/${dog._id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
@@ -36,14 +37,17 @@ const Edit = ({setPage, dog}) => {
           });
     
           if (response.ok) {
-            console.log('Dog profile added successfully!');
+            console.log('Changes saved successfully!');
+            const updatedDog = await response.json();
+            setDogs((oldDogs) => [...oldDogs, updatedDog])
+            setPage("Start")
             // Lägg till eventuellt annat beteende för att indikera att hundprofilen har lagts till
           } else {
-            console.error('Failed to add dog profile');
+            console.error('Failed to edit profile');
             // Lägg till eventuellt annat beteende för att indikera att det inte gick att lägga till hundprofilen
           }
         } catch (error) {
-          console.error('Error adding dog profile:', error);
+          console.error('Error saving dog profile:', error);
           // Lägg till eventuellt annat beteende för att hantera fel
         }
       };
@@ -60,14 +64,14 @@ const Edit = ({setPage, dog}) => {
         <>
             
             <button onClick={changePage}>Back to Start</button>
-            <h1>CREATE PAGE</h1>
+            <h1>EDIT PAGE</h1>
         
             
             <form onSubmit={handleSubmit}>
-      <label htmlFor="name">Name:</label>
+      <label htmlFor="name">Change name:</label>
       <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} />
       
-      <label htmlFor="age">Age:</label>
+      <label htmlFor="age">change age:</label>
       <input type="number" id="age" value={age} onChange={(e) => setAge(e.target.value)} />
       
 
@@ -86,20 +90,20 @@ const Edit = ({setPage, dog}) => {
           <input type="text" id="temperament" value={temperament} onChange={(e) => setTemperament(e.target.value)} />
           
 
-          <label htmlFor="breed">breed:</label>
+          <label htmlFor="breed">Change breed:</label>
       <input type="text" id="breed" value={breed} onChange={(e) => setBreed(e.target.value)} />
       
       <label htmlFor="preference">Preference:</label>
       <input type="text" id="preference" value={preference} onChange={(e) => setPreference(e.target.value)} />
       
-      <label htmlFor="nickname">Nickname:</label> {/* Lägg till fält för nickname */}
+      <label htmlFor="nickname">Change nick:</label> {/* Lägg till fält för nickname */}
       <input type="text" id="nickname" value={nickname} onChange={(e) => setNickname(e.target.value)} />
       
-      <label htmlFor="presence">Presence:</label> {/* Lägg till fält för presence */}
+      <label htmlFor="presence">Present?:</label> {/* Lägg till fält för presence */}
       <input type="text" id="presence" value={presence} onChange={(e) => setPresence(e.target.value)} />
       
       
-      <button type="submit">Add Dog Profile</button>
+      <button type="submit">Save changes</button>
   
       
       
