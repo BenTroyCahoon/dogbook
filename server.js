@@ -28,7 +28,7 @@ const dogsDataSchema = new mongoose.Schema({
   temperament: String,
   preference: String,
   nickname: String, // Lägg till attributet för nickname
-  presence: String, // Lägg till attributet för presence
+  presence: Boolean, // Lägg till attributet för presence
   // image: String // Lägg till attributet för bild (du kan också lagra bildens URL)
 });
 
@@ -118,5 +118,22 @@ app.put("/dogs/:id", async (req, res) => {
     res.status(500).send("Failed to update dog profile.");
   }
 });
+
+app.delete("/dogs/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedDog = await Dog.findByIdAndDelete(id);
+    if (!deletedDog) {
+      return res.status(404).send("Dog not found");
+    }
+    console.log("Dog deleted successfully");
+    res.status(200).send("Dog deleted successfully");
+  } catch (error) {
+    console.error("Error deleting dog:", error);
+    res.status(500).send("Failed to delete dog");
+  }
+});
+
 
 start();

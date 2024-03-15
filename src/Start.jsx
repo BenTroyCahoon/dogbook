@@ -3,45 +3,26 @@ import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 
 
-const Start = ({ setPage, setDog, dogs }) => {
+const Start = ({ setPage, setDog, dogs, setDogs }) => {
 
-//  const [dogs, setDogs] = useState([])
-  // const [dogImages, setDogImages] = useState([]); // Lägg till state för bild (URL)
-
-   
-
-  // function changePage(event) {
-  //   event.preventDefault()
-   
-  //   setPage('Start')
-   
-   
-  //   console.log("1")
-// }  
-    
-
+ 
     
     
 return (
     <div>
  <button onClick={()=>setPage('Create')}>Create Dog</button>
       <h2>Dogs List</h2>
-        <ul>
-          {dogs.map((dog, index)=> (
-            <a key={index} onClick={() => { setPage('Profile'); setDog(dog) }}><li >
-           {/* <img src={dogImages} alt="Dog" /> */}
-           <div>
-             <p style={{color: dog.presence === "ja" ? "green" : "red"}}><strong>Name:</strong> {dog.name}</p>
-             {/* <p><strong>Nickname:</strong> {dog.nickname}</p>
-             <p><strong>Age:</strong> {dog.age}</p>
-             <p><strong>Breed:</strong> {dog.breed}</p>
-             <p><strong>Info:</strong> {dog.info}</p> */}
-           </div>
-         </li></a> 
-          ))}
-        
-      
-        </ul>
+
+      <ul>
+    {dogs.map((dog, index)=> (
+        <li key={index}>
+            <a onClick={() => { setPage('Profile'); setDog(dog) }}>
+                <p style={{color: dog.presence ? "green" : "red"}}><strong>Name:</strong> {dog.name}</p>
+            </a>
+            <button onClick={() => setDogs([...dogs.slice(0, index), ...dogs.slice(index + 1)])}>Delete </button>
+        </li>
+    ))}
+</ul>
       
       </div>
   );

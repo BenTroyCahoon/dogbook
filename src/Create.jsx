@@ -10,7 +10,7 @@ const Create = ({setPage, setDogs}) => {
   const [temperament, setTemperament] = useState('');
   const [preference, setPreference] = useState('');
   const [nickname, setNickname] = useState(''); // Lägg till state för nickname
-    const [presence, setPresence] = useState(''); // Lägg till state för presence
+    const [presence, setPresence] = useState(false); // Lägg till state för presence
     const [breed, setBreed] = useState('')
 
     const handleSubmit = async (e) => {
@@ -100,8 +100,11 @@ const Create = ({setPage, setDogs}) => {
       <label htmlFor="nickname">Nickname:</label> {/* Lägg till fält för nickname */}
       <input type="text" id="nickname" value={nickname} onChange={(e) => setNickname(e.target.value)} />
       
-      <label htmlFor="presence">Presence:</label> {/* Lägg till fält för presence */}
-      <input type="text" id="presence" value={presence} onChange={(e) => setPresence(e.target.value)} />
+      {/* <label htmlFor="presence">Presence:</label> Lägg till fält för presence */}
+      {/* <input type="text" id="presence" value={presence} onChange={(e) => setPresence(e.target.value)} /> */}
+      
+      <label htmlFor="presence">Presence:</label>
+      <input onChange={(e) => setPresence(e.target.checked)} type="checkbox" name="present" id="presence"/>
       
       
       <button type="submit">Add Dog Profile</button>

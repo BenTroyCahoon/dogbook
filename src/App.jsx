@@ -33,7 +33,7 @@ console.log(dog.name)
 
   switch (page) {
     case 'Start':
-      return <Start setDog={setDog} setPage={setPage} dogs={dogs} />;
+      return <Start setDog={setDog} setPage={setPage} dogs={dogs} setDogs={setDogs} />;
     case 'Profile':
       return <Profile dog={dog} setPage={setPage}  />;
     case 'Create':
