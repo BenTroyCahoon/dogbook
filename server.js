@@ -27,14 +27,15 @@ const dogsDataSchema = new mongoose.Schema({
   gender: String,
   temperament: String,
   preference: String,
-  nickname: String, // Lägg till attributet för nickname
-  presence: Boolean, // Lägg till attributet för presence
-  // image: String // Lägg till attributet för bild (du kan också lagra bildens URL)
+  nickname: String,
+  presence: Boolean,
+
+  friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "Dog" }],
 });
 
 const Dog = mongoose.model("Dog", dogsDataSchema);
 
-app.post("/addDogProfile", async (req, res) => {
+app.post("/dogs/addDogProfile", async (req, res) => {
   const {
     name,
     age,
@@ -43,9 +44,11 @@ app.post("/addDogProfile", async (req, res) => {
     preference,
     nickname,
     presence,
+    isNeutered,
     breed,
+    friends,
   } = req.body;
-
+  console.log(req.body);
   try {
     const newDog = new Dog({
       name,
@@ -53,9 +56,11 @@ app.post("/addDogProfile", async (req, res) => {
       gender,
       temperament,
       preference,
+      isNeutered,
       nickname,
       presence,
       breed,
+      friends,
     });
     await newDog.save();
     console.log(newDog);
@@ -134,6 +139,5 @@ app.delete("/dogs/:id", async (req, res) => {
     res.status(500).send("Failed to delete dog");
   }
 });
-
 
 start();
