@@ -1,33 +1,38 @@
-
-import React, { useState,useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
 
 
 const Start = ({ setPage, setDog, dogs, setDogs }) => {
-
- 
     
-    
-return (
+  return (
     <div>
- <button onClick={()=>setPage('Create')}>Create Dog</button>
+      <button onClick={() => setPage("Create")}>Create Dog</button>
       <h2>Dogs List</h2>
 
       <ul>
-    {dogs.map((dog, index)=> (
-        <li key={index}>
-            <a onClick={() => { setPage('Profile'); setDog(dog) }}>
-                <p style={{color: dog.presence ? "green" : "red"}}><strong>Name:</strong> {dog.name}</p>
+        {dogs.map((dog) => (
+          <li key={dog._id}>
+            <a
+              onClick={() => {
+                setPage("Profile");
+                setDog(dog);
+              }}
+            >
+              <p style={{ color: dog.presence ? "green" : "red" }}>
+                <strong>Name:</strong> {dog.name}
+              </p>
             </a>
-            <button onClick={() => setDogs([...dogs.slice(0, index), ...dogs.slice(index + 1)])}>Delete </button>
-        </li>
-    ))}
-</ul>
-      
-      </div>
+            <button
+              onClick={() =>
+                setDogs([...dogs.slice(0, index), ...dogs.slice(index + 1)])
+              }
+            >
+              Delete{" "}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
-
-
 
 export default Start;

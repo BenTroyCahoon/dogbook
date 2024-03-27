@@ -15,7 +15,6 @@ async function start() {
     });
   } catch (error) {
     console.error(error);
-
   }
 }
 
@@ -81,6 +80,16 @@ app.get("/dogs", async (req, res) => {
   }
 });
 
+app.get("/dogs/:id", async (req, res) => {
+  try {
+    const dogs = await Dog.findById(req.params.id).populate("friends");
+    console.log(dogs);
+    res.status(200).json(dogs);
+  } catch (error) {
+    console.error("fetching went to shit");
+  }
+});
+
 app.put("/dogs/:id", async (req, res) => {
   const { id } = req.params; // Hämta ID från URL-parametern
   const {
@@ -92,6 +101,7 @@ app.put("/dogs/:id", async (req, res) => {
     nickname,
     presence,
     breed,
+    friends,
   } = req.body;
 
   try {
@@ -107,6 +117,7 @@ app.put("/dogs/:id", async (req, res) => {
         nickname,
         presence,
         breed,
+        friends,
       },
       { new: true }
     ); // Använd { new: true } för att få det uppdaterade objektet tillbaka
