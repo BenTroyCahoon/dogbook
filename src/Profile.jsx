@@ -1,44 +1,50 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Profile = ({ setPage, dog, setId }) => {
   const [dogImage, setDogImage] = useState("");
   const [friends, setFriends] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        // Hämta hundens uppgifter och vännerna från servern
-        const response = await axios.get(
-          `http://localhost:3000/dogs/${dog._id}`
-        );
-        setFriends(response.data.friends);
-        const responseImg = await axios.get(
-          "https://dog.ceo/api/breeds/image/random"
-        );
-        setDogImage(responseImg.data.message); // Sätt URL:n för den slumpmässiga hundbilden
-      } catch (error) {
-        console.error("Error fetching dog profile:", error);
+      console.log(dog.name);
+      if (dog && dog._id) {
+        // Kontrollera att dog och _id är definierade
+        try {
+          // Hämta hundens uppgifter och vännerna från servern
+          const response = await axios.get(
+            `http://localhost:3000/dogs/${dog._id}`
+          );
+          setFriends(response.data.friends);
+          const responseImg = await axios.get(
+            "https://dog.ceo/api/breeds/image/random"
+          );
+          setDogImage(responseImg.data.message);
+        } catch (error) {
+          console.error("Error fetching dog profile:", error);
+        }
       }
     };
     fetchData();
-  }, [dog._id]);
+  }, [dog]); // Endast kör effekten när dog ändras
 
-  function changePage(event) {
-    event.preventDefault();
-    setPage("Start");
-    setId(dog._id);
-  }
+  // function changePage(event) {
+  //   event.preventDefault();
+  //   setPage("Start");
+  //   setId(dog._id);
+  // }
 
-  function editDog(event) {
-    event.preventDefault();
-    setPage("Edit");
-  }
+  // function editDog(event) {
+  //   event.preventDefault();
+  //   setPage("Edit");
+  // }
   return (
     <div>
-      <button onClick={changePage}>Go to Start</button>
-      <button onClick={editDog}>Edit Dog</button>
+      <button onClick={() => navigate("/")}>Go to Start</button>
+      <button onClick={() => navigate(`/edit/${dog._id}`)}>Edit Dog</button>
       <h1>{dog.name} sida!</h1>
 
       {/* Visa den slumpmässiga hundbilden */}

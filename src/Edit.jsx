@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Edit = ({ setPage, setDogs, dog, dogs, id }) => {
   const [name, setName] = useState(dog.name);
@@ -10,6 +11,7 @@ const Edit = ({ setPage, setDogs, dog, dogs, id }) => {
   const [presence, setPresence] = useState(dog.presence);
   const [breed, setBreed] = useState(dog.breed);
   const [selectedFriends, setSelectedFriends] = useState([]);
+  const navigate = useNavigate();
 
   const handleCheckBoxhange = (event) => {
     const { checked, value } = event.target;
@@ -76,7 +78,7 @@ const Edit = ({ setPage, setDogs, dog, dogs, id }) => {
 
   return (
     <>
-      <button onClick={changePage}>Back to Start</button>
+      <button onClick={()=> navigate('/')}>Back to Start</button>
       <h1>EDIT PAGE</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">Change name:</label>

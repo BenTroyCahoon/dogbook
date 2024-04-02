@@ -22,7 +22,7 @@ const dogsDataSchema = new mongoose.Schema({
   name: String,
   age: Number,
   breed: String,
-  isNeutered: String,
+  // isNeutered: String,
   gender: String,
   temperament: String,
   preference: String,
@@ -43,7 +43,7 @@ app.post("/dogs/addDogProfile", async (req, res) => {
     preference,
     nickname,
     presence,
-    isNeutered,
+    // isNeutered,
     breed,
     friends,
   } = req.body;
@@ -76,17 +76,29 @@ app.get("/dogs", async (req, res) => {
     const dogs = await Dog.find();
     res.status(200).json(dogs);
   } catch (error) {
-    console.error("fetching went to shit");
+    console.error("fetching went to hell");
   }
 });
 
+// app.get("/dogs/:id", async (req, res) => {
+
+//   try {
+//     const dogs = await Dog.findById(req.params.id).populate("friends");
+//     console.log(dogs);
+//     res.status(200).json(dogs);
+//   } catch (error) {
+//     console.error("fetching went to shit");
+
+//   }
+// });
 app.get("/dogs/:id", async (req, res) => {
   try {
-    const dogs = await Dog.findById(req.params.id).populate("friends");
-    console.log(dogs);
-    res.status(200).json(dogs);
+    const dog = await Dog.findById(req.params.id).populate("friends");
+    res.json(dog);
+    console.log(dog.name);
   } catch (error) {
-    console.error("fetching went to shit");
+    res.status(500).json({ message: error.message });
+    console.log("fan også");
   }
 });
 

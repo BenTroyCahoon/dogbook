@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useNavigate } from "react";
+import React, { useState, useEffect} from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Create = ({ setPage }) => {
   const [name, setName] = useState("");
@@ -12,6 +13,7 @@ const Create = ({ setPage }) => {
   const [breed, setBreed] = useState("");
   const [selectedFriends, setSelectedFriends] = useState([]);
   const [dogs, setDogs] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchDogs() {
@@ -75,14 +77,14 @@ const Create = ({ setPage }) => {
     }
   };
 
-  function changePage(event) {
-    event.preventDefault();
-    setPage("Start");
-  }
+  // function changePage(event) {
+  //   event.preventDefault();
+  //   setPage("Start");
+  
 
   return (
     <>
-      <button onClick={changePage}>Back to Start</button>
+      <button onClick={()=> navigate('/')}>Back to Start</button>
       <h1>CREATE PAGE</h1>
 
       <form onSubmit={handleSubmit}>
