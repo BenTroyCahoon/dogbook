@@ -1,8 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const Start = ({ setPage, setDog, dogs, setDogsChanged }) => {
-  
+const Start = () => {
+  const [dogs, setDogs] = useState([]);
+
+  useEffect(() => {
+    const getDogs = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/dogs");
+        setDogs(response.data);
+      } catch (error) {
+        console.error("Error fetching dogs:", error);
+      }
+    };
+    getDogs();
+  }, []);
+
   const removeDog = async (id) => {
     try {
       const response = await fetch(`http://localhost:3000/dogs/${id}`, {
@@ -10,10 +24,10 @@ const Start = ({ setPage, setDog, dogs, setDogsChanged }) => {
       });
 
       if (response.ok) {
-        setDog(dogs.filter((dog) => dog._id !== id));
+        // setDog(dogs.filter((dog) => dog._id !== id));
         alert("Dog removed successfully!");
         console.log("Dogs changed:", dogs); // Logga ändring i hundar
-        setDogsChanged(true);
+        // setDogsChanged(true);
         console.log("Dogs changed set to true"); // Logga att hundarna har ändrats
       } else {
         alert("Failed to remove dog.");
@@ -35,10 +49,10 @@ const Start = ({ setPage, setDog, dogs, setDogsChanged }) => {
           <li
             key={dog._id}
             style={{ cursor: "pointer" }}
-            onClick={() => {
-              setPage("Profile");
-              setDog(dog);
-            }}
+            // onClick={() => {
+            //   setPage("Profile");
+            //   setDog(dog);
+            // }}
           >
             <Link
               to={`/profile/${dog._id}`}

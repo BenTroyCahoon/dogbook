@@ -1,32 +1,59 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
-const Edit = ({ setPage, setDogs, dog, dogs, id }) => {
-  const [name, setName] = useState(dog.name);
-  const [age, setAge] = useState(dog.age);
-  const [gender, setGender] = useState(dog.gender);
-  const [temperament, setTemperament] = useState(dog.temperament);
-  const [preference, setPreference] = useState(dog.preference);
-  const [nickname, setNickname] = useState(dog.nickname);
-  const [presence, setPresence] = useState(dog.presence);
-  const [breed, setBreed] = useState(dog.breed);
+const Edit = () => {
+  const [dogs, setDogs] = useState([])
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState("");
+  const [temperament, setTemperament] = useState("");
+  const [preference, setPreference] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [presence, setPresence] = useState("");
+  const [breed, setBreed] = useState("");
   const [selectedFriends, setSelectedFriends] = useState([]);
+  const [dog, setDog] = useState(null);
   const navigate = useNavigate();
 
-  const handleCheckBoxhange = (event) => {
-    const { checked, value } = event.target;
-    if (checked) {
-      setSelectedFriends((prevSelectedFriends) => [
-        ...prevSelectedFriends,
-        value,
-      ]);
-    } else {
-      setSelectedFriends((prevSelectedFriends) =>
-        prevSelectedFriends.filter((friendId) => friendId !== value)
-      );
-    }
-  };
+  const { id } = useParams();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // Kontrollera att dog och _id är definierade
+      try {
+        // Hämta hundens uppgifter och vännerna från servern
+        const response = await axios.get(`http://localhost:3000/dogs/${id}`);
+        setDog(response.data);
+        setName(response.data.name);
+        setGender(response.data.gender);
+        setAge(response.data.age);
+        setNickname(response.data.nickname);
+        setPreference(response.data.preference);
+        setTemperament(response.data.temperament);
+        setSelectedFriends(response.data.friends);
+
+        //setFriends(response.data.friends);
+      } catch (error) {
+        console.error("Error fetching dog profile:", error);
+      }
+    };
+    fetchData();
+  }, []); // Endast kör effekten när dog ändras
+
+  // const handleCheckBoxhange = (event) => {
+  //   const { checked, value } = event.target;
+  //   if (checked) {
+  //     setSelectedFriends((prevSelectedFriends) => [
+  //       ...prevSelectedFriends,
+  //       value,
+  //     ]);
+  //   } else {
+  //     setSelectedFriends((prevSelectedFriends) =>
+  //       prevSelectedFriends.filter((friendId) => friendId !== value)
+  //     );
+  //   }
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,10 +84,10 @@ const Edit = ({ setPage, setDogs, dog, dogs, id }) => {
       if (response.ok) {
         console.log("Changes saved successfully!");
         const updatedDog = await response.json();
-        setDogs((oldDogs) =>
-          oldDogs.map((dog) => (dog._id === updatedDog._id ? updatedDog : dog))
-        );
-        setPage("Start");
+        // setDogs((oldDogs) =>
+        //   oldDogs.map((dog) => (dog._id === updatedDog._id ? updatedDog : dog))
+        // );
+        // setPage("Start");
       } else {
         console.error("Failed to edit profile");
       }
@@ -69,14 +96,9 @@ const Edit = ({ setPage, setDogs, dog, dogs, id }) => {
     }
   };
 
-  useEffect(() => {
-    setPresence(dog.presence);
-  }, [dog.presence]);
-
-  function changePage(event) {
-    event.preventDefault();
-    setPage("Start");
-  }
+  // useEffect(() => {
+  //   setPresence(dog.presence);
+  // }, [dog.presence]);
 
   return (
     <>

@@ -8,23 +8,23 @@ import Profile from "./Profile";
 import Edit from "./Edit";
 
 function App() {
-  const [page, setPage] = useState("Start");
-  const [dog, setDog] = useState({});
-  const [dogs, setDogs] = useState([]);
-  const [id, setId] = useState("");
+  // const [page, setPage] = useState("Start");
+  // const [dog, setDog] = useState({});
+  // const [dogs, setDogs] = useState([]);
+  // const [id, setId] = useState("");
 
-  useEffect(() => {
-    async function fetchDogs() {
-      try {
-        const response = await axios.get("http://localhost:3000/dogs");
-        setDogs(response.data);
-      } catch (error) {
-        console.error("Error fetching dogs:", error);
-      }
-    }
+  // useEffect(() => {
+  //   async function fetchDogs() {
+  //     try {
+  //       const response = await axios.get("http://localhost:3000/dogs");
+  //       setDogs(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching dogs:", error);
+  //     }
+  //   }
 
-    fetchDogs();
-  }, []);
+  //   fetchDogs();
+  // }, []);
 
   return (
     <Router>
@@ -33,32 +33,32 @@ function App() {
           path="/"
           element={
             <Start
-              setDog={setDog}
-              setPage={setPage}
-              dogs={dogs}
-              setDogs={setDogs}
+              // setDog={setDog}
+              // setPage={setPage}
+              // dogs={dogs}
+              // setDogs={setDogs}
             />
           }
         />
         <Route
           path="/create"
-          element={<Create setPage={setPage} setDogs={setDogs} />}
+          element={<Create  />}
         />
         <Route
           path="/profile/:id"
           element={
-            <Profile dog={dog} setPage={setPage} setId={setId} id={id} />
+            <Profile  />
           }
         />
         <Route
           path="/edit/:id"
           element={
             <Edit
-              dog={dog}
-              setPage={setPage}
-              setDogs={setDogs}
-              dogs={dogs}
-              id={id}
+              // dog={dog}
+              // setPage={setPage}
+              // setDogs={setDogs}
+              // dogs={dogs}
+              // id={id}
             />
           }
         />

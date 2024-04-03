@@ -2,7 +2,9 @@ import React, { useState, useEffect} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const Create = ({ setPage }) => {
+
+
+const Create = () => {
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
@@ -63,9 +65,10 @@ const Create = ({ setPage }) => {
       if (response.status === 201) {
         const newDog = response.data;
         console.log("Dog profile added successfully!");
+        navigate('/')
         console.log(newDog);
-        setDogs((oldDogs) => [...oldDogs, newDog]);
-        setPage("Start");
+        // setDogs((oldDogs) => [...oldDogs, newDog]);
+        // setPage("Start");
         // Lägg till eventuellt annat beteende för att indikera att hundprofilen har lagts till
       } else {
         console.error("Failed to add dog profile");
