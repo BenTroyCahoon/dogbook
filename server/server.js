@@ -55,7 +55,7 @@ app.post("/dogs/addDogProfile", async (req, res) => {
       gender,
       temperament,
       preference,
-      isNeutered,
+      // isNeutered,
       nickname,
       presence,
       breed,

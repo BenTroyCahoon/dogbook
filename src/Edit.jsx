@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Edit = ({ setPage, setDogs, dog, dogs, id }) => {
   const [name, setName] = useState(dog.name);
@@ -33,12 +34,14 @@ const Edit = ({ setPage, setDogs, dog, dogs, id }) => {
       (friendId) => friendId !== id
     );
     try {
-      const response = await fetch(`http://localhost:3000/dogs/${dog._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      const response = await axios.put(
+        `http://localhost:3000/dogs/${dog._id}`,
+        {
+          // method: "PUT",
+          // headers: {
+          //   "Content-Type": "application/json",
+          // },
+          // body: JSON.stringify({
           name,
           age,
           breed,
@@ -48,8 +51,8 @@ const Edit = ({ setPage, setDogs, dog, dogs, id }) => {
           nickname,
           presence,
           friends: filteredSelectedFriends,
-        }),
-      });
+        }
+      );
 
       if (response.ok) {
         console.log("Changes saved successfully!");
@@ -73,12 +76,11 @@ const Edit = ({ setPage, setDogs, dog, dogs, id }) => {
   function changePage(event) {
     event.preventDefault();
     setPage("Start");
-    console.log("1");
   }
 
   return (
     <>
-      <button onClick={()=> navigate('/')}>Back to Start</button>
+      <button onClick={() => navigate("/")}>Back to Start</button>
       <h1>EDIT PAGE</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">Change name:</label>

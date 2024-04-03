@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const Start = ({ setPage, setDog, dogs, setDogs }) => {
+const Start = ({ setPage, setDog, dogs, setDogsChanged }) => {
+  
   const removeDog = async (id) => {
     try {
       const response = await fetch(`http://localhost:3000/dogs/${id}`, {
