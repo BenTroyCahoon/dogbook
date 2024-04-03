@@ -3,17 +3,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 const Edit = () => {
-  const [dogs, setDogs] = useState([])
+  const [dogs, setDogs] = useState([]);
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
   const [temperament, setTemperament] = useState("");
   const [preference, setPreference] = useState("");
   const [nickname, setNickname] = useState("");
-  const [presence, setPresence] = useState("");
+  const [presence, setPresence] = useState(false);
   const [breed, setBreed] = useState("");
   const [selectedFriends, setSelectedFriends] = useState([]);
-  const [dog, setDog] = useState(null);
   const navigate = useNavigate();
 
   const { id } = useParams();
@@ -24,16 +23,14 @@ const Edit = () => {
       try {
         // Hämta hundens uppgifter och vännerna från servern
         const response = await axios.get(`http://localhost:3000/dogs/${id}`);
-        setDog(response.data);
         setName(response.data.name);
         setGender(response.data.gender);
         setAge(response.data.age);
         setNickname(response.data.nickname);
         setPreference(response.data.preference);
         setTemperament(response.data.temperament);
-        setSelectedFriends(response.data.friends);
-
-        //setFriends(response.data.friends);
+        setSelectedFriends(response.data.friends.map((friend) => friend._id));
+        // setFriends(response.data.friends);
       } catch (error) {
         console.error("Error fetching dog profile:", error);
       }
@@ -41,34 +38,51 @@ const Edit = () => {
     fetchData();
   }, []); // Endast kör effekten när dog ändras
 
-  // const handleCheckBoxhange = (event) => {
-  //   const { checked, value } = event.target;
-  //   if (checked) {
-  //     setSelectedFriends((prevSelectedFriends) => [
-  //       ...prevSelectedFriends,
-  //       value,
-  //     ]);
-  //   } else {
-  //     setSelectedFriends((prevSelectedFriends) =>
-  //       prevSelectedFriends.filter((friendId) => friendId !== value)
-  //     );
-  //   }
-  // };
+  useEffect(() => {
+    const fetchData = async () => {
+      // Kontrollera att dog och _id är definierade
+      try {
+        // Hämta hundens uppgifter och vännerna från servern
+        const response = await axios.get(`http://localhost:3000/dogs/`);
+        setDogs(response.data);
+      } catch (error) {
+        console.error("Error fetching dog profile:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleCheckBoxhange = (event) => {
+    const { checked, value } = event.target;
+    console.log(checked, value);
+    if (checked) {
+      setSelectedFriends((prevSelectedFriends) => [
+        ...prevSelectedFriends,
+        value,
+      ]);
+    } else {
+      setSelectedFriends((prevSelectedFriends) =>
+        prevSelectedFriends.filter((friendId) => friendId !== value)
+      );
+    }
+  };
+
+  // useEffect(() => {
+  //   setSelectedFriends(dog.friends || []);
+
+  // }, [dog.friends])
 
   const handleSubmit = async (e) => {
+    console.log(" inne i submit");
+
     e.preventDefault();
     const filteredSelectedFriends = selectedFriends.filter(
       (friendId) => friendId !== id
     );
     try {
       const response = await axios.put(
-        `http://localhost:3000/dogs/${dog._id}`,
+        `http://localhost:3000/dogs/edit/${id}`,
         {
-          // method: "PUT",
-          // headers: {
-          //   "Content-Type": "application/json",
-          // },
-          // body: JSON.stringify({
           name,
           age,
           breed,
@@ -80,14 +94,9 @@ const Edit = () => {
           friends: filteredSelectedFriends,
         }
       );
-
-      if (response.ok) {
-        console.log("Changes saved successfully!");
-        const updatedDog = await response.json();
-        // setDogs((oldDogs) =>
-        //   oldDogs.map((dog) => (dog._id === updatedDog._id ? updatedDog : dog))
-        // );
-        // setPage("Start");
+      if (response.status === 200) {
+        alert("Changes saved successfully!");
+        navigate(`/profile/${id}`);
       } else {
         console.error("Failed to edit profile");
       }

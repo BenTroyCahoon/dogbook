@@ -27,8 +27,7 @@ const Start = () => {
         // setDog(dogs.filter((dog) => dog._id !== id));
         alert("Dog removed successfully!");
         console.log("Dogs changed:", dogs); // Logga ändring i hundar
-        // setDogsChanged(true);
-        console.log("Dogs changed set to true"); // Logga att hundarna har ändrats
+        navigate("/");
       } else {
         alert("Failed to remove dog.");
       }

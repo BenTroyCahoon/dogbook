@@ -95,14 +95,14 @@ app.get("/dogs/:id", async (req, res) => {
   try {
     const dog = await Dog.findById(req.params.id).populate("friends");
     res.json(dog);
-    console.log(dog.name);
+
   } catch (error) {
     res.status(500).json({ message: error.message });
     console.log("fan også");
   }
 });
 
-app.put("/dogs/:id", async (req, res) => {
+app.put("/dogs/edit/:id", async (req, res) => {
   const { id } = req.params; // Hämta ID från URL-parametern
   const {
     name,
