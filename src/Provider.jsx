@@ -112,12 +112,25 @@ const DogProvider = ({ children }) => {
     }
   }
 
+  async function addDogProfile(newDogData) {
+    try {
+      const response = await axios.post("http://localhost:3000/dogs/addDogProfile", newDogData);
+      if (response.status === 201) {
+        alert('Dog profile added successfully!');
+      } else {
+        alert('Failed to add dog profile.');
+      }
+    } catch (error) {
+      console.error('Error adding dog profile:', error);
+      alert('Failed to add dog profile.');
+    }
+  }
+
   return (
-    <DogContext.Provider value={{ fetchAllDogs, fetchDogById, fetchDogImage, removeDog }}>
+    <DogContext.Provider value={{ fetchAllDogs, fetchDogById, fetchDogImage, removeDog, addDogProfile }}>
       {children}
     </DogContext.Provider>
   );
 };
 
 export { DogContext, DogProvider };
-

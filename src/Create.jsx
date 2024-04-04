@@ -173,9 +173,168 @@
 
 // export default Create;
 
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
+// import axios from "axios";
+// import { useNavigate } from "react-router-dom";
+
+// const Create = () => {
+//   const [name, setName] = useState("");
+//   const [age, setAge] = useState("");
+//   const [gender, setGender] = useState("");
+//   const [temperament, setTemperament] = useState("");
+//   const [preference, setPreference] = useState("");
+//   const [nickname, setNickname] = useState("");
+//   const [presence, setPresence] = useState(false);
+//   const [breed, setBreed] = useState("");
+//   const [selectedFriends, setSelectedFriends] = useState([]);
+//   const [dogs, setDogs] = useState([]);
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     async function fetchDogs() {
+//       try {
+//         const response = await axios.get("http://localhost:3000/dogs");
+//         setDogs(response.data);
+//       } catch (error) {
+//         console.error("Error fetching dogs", error);
+//       }
+//     }
+//     fetchDogs();
+//   }, []);
+
+//   const handleCheckBoxChange = (event) => {
+//     const { checked, value } = event.target;
+//     if (checked && !selectedFriends.includes(value)) {
+//       setSelectedFriends((prevSelectedFriends) => [
+//         ...prevSelectedFriends,
+//         value,
+//       ]);
+//     } else if (!checked && selectedFriends.includes(value)) {
+//       setSelectedFriends((prevSelectedFriends) =>
+//         prevSelectedFriends.filter((friendId) => friendId !== value)
+//       );
+//     }
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const response = await axios.post(
+//         "http://localhost:3000/dogs/addDogProfile",
+//         {
+//           name,
+//           age,
+//           breed,
+//           gender,
+//           temperament,
+//           preference,
+//           nickname,
+//           presence,
+//           friends: selectedFriends,
+//         }
+//       );
+
+//       if (response.status === 201) {
+//         console.log("Dog profile added successfully!");
+//         navigate("/");
+//       } else {
+//         console.error("Failed to add dog profile");
+//       }
+//     } catch (error) {
+//       console.error("Error adding dog profile:", error);
+//     }
+//   };
+
+//   return (
+//     <>
+//       <button onClick={() => navigate("/")}>Back to Start</button>
+//       <h1>CREATE PAGE</h1>
+
+//       <form onSubmit={handleSubmit}>
+//         <label htmlFor="name">Name:</label>
+//         <input
+//           type="text"
+//           id="name"
+//           value={name}
+//           onChange={(e) => setName(e.target.value)}
+//         />
+//         <label htmlFor="age">Age:</label>
+//         <input
+//           type="number"
+//           id="age"
+//           value={age}
+//           onChange={(e) => setAge(e.target.value)}
+//         />
+//         <label>
+//           Gender:
+//           <select value={gender} onChange={(e) => setGender(e.target.value)}>
+//             <option value="">Select Gender</option>
+//             <option value="male">Male</option>
+//             <option value="female">Female</option>
+//           </select>
+//         </label>
+//         <label htmlFor="temperament">Temperament:</label>
+//         <input
+//           type="text"
+//           id="temperament"
+//           value={temperament}
+//           onChange={(e) => setTemperament(e.target.value)}
+//         />
+//         <label htmlFor="breed">Breed:</label>
+//         <input
+//           type="text"
+//           id="breed"
+//           value={breed}
+//           onChange={(e) => setBreed(e.target.value)}
+//         />
+//         <label htmlFor="preference">Preference:</label>
+//         <input
+//           type="text"
+//           id="preference"
+//           value={preference}
+//           onChange={(e) => setPreference(e.target.value)}
+//         />
+//         <label htmlFor="nickname">Nickname:</label>
+//         <input
+//           type="text"
+//           id="nickname"
+//           value={nickname}
+//           onChange={(e) => setNickname(e.target.value)}
+//         />
+//         <label htmlFor="presence">Presence:</label>
+//         <input
+//           type="checkbox"
+//           id="presence"
+//           checked={presence}
+//           onChange={(e) => setPresence(e.target.checked)}
+//         />
+//         <fieldset>
+//           <legend>Select friends:</legend>
+//           {dogs.map((dog) => (
+//             <div key={dog._id}>
+//               <input
+//                 type="checkbox"
+//                 id={dog._id}
+//                 value={dog._id}
+//                 checked={selectedFriends.includes(dog._id)}
+//                 onChange={handleCheckBoxChange}
+//               />
+//               <label htmlFor={dog._id}>{dog.name}</label>
+//             </div>
+//           ))}
+//         </fieldset>
+//         <button type="submit">Add Dog Profile</button>
+//       </form>
+//     </>
+//   );
+// };
+
+// export default Create;
+
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { DogContext } from "./Provider";
 
 const Create = () => {
   const [name, setName] = useState("");
@@ -186,21 +345,23 @@ const Create = () => {
   const [nickname, setNickname] = useState("");
   const [presence, setPresence] = useState(false);
   const [breed, setBreed] = useState("");
-  const [selectedFriends, setSelectedFriends] = useState([]);
+  const [selectedFriends, setSelectedFriends] = useState([]); // Initialize as empty array
   const [dogs, setDogs] = useState([]);
   const navigate = useNavigate();
 
+  const { addDogProfile, fetchAllDogs } = useContext(DogContext);
+
   useEffect(() => {
-    async function fetchDogs() {
+    const getDogs = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/dogs");
-        setDogs(response.data);
+        const dogsData = await fetchAllDogs();
+        setDogs(dogsData);
       } catch (error) {
         console.error("Error fetching dogs", error);
       }
-    }
-    fetchDogs();
-  }, []);
+    };
+    getDogs();
+  }, [fetchAllDogs]);
 
   const handleCheckBoxChange = (event) => {
     const { checked, value } = event.target;
@@ -219,27 +380,18 @@ const Create = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:3000/dogs/addDogProfile",
-        {
-          name,
-          age,
-          breed,
-          gender,
-          temperament,
-          preference,
-          nickname,
-          presence,
-          friends: selectedFriends,
-        }
-      );
-
-      if (response.status === 201) {
-        console.log("Dog profile added successfully!");
-        navigate("/");
-      } else {
-        console.error("Failed to add dog profile");
-      }
+      await addDogProfile({
+        name,
+        age,
+        breed,
+        gender,
+        temperament,
+        preference,
+        nickname,
+        presence,
+        friends: selectedFriends,
+      });
+      navigate("/");
     } catch (error) {
       console.error("Error adding dog profile:", error);
     }
@@ -330,3 +482,4 @@ const Create = () => {
 };
 
 export default Create;
+
